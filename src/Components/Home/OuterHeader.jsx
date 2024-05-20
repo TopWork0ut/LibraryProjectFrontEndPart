@@ -20,14 +20,13 @@ export default function OuterHeader(){
                         <NavLink end exact to="/details" className={({ isActive }) => (isActive ? "active" : "link")}>About Us</NavLink>
                     </li>
                     <li>
-                    <NavLink end exact to="/login"  className={({ isActive }) => (isActive ? "active" : "link")}>Log In</NavLink>
+                    <NavLink end exact to="http://localhost:8080"  className={({ isActive }) => (isActive ? "active" : "link")}>Log In</NavLink>
                     </li>
                     <li className="divider_sign">/</li>
                     <li>
-                    <NavLink end exact to="/sign-up" className={({ isActive }) => (isActive ? "active" : "link")}>Sign Up</NavLink>
+                    <NavLink end exact to="http://localhost:8080" className={({ isActive }) => (isActive ? "active" : "link")}>Sign Up</NavLink>
                     </li>
                 </ul>
             </HeaderContainer> 
     );
 };
-
