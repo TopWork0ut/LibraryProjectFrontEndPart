@@ -4,6 +4,7 @@ import axios from "axios";
 import qs from 'qs';
 import Request from "./Request";
 import { HttpMethods } from "./HttpMethods";
+import { LoginStatus } from "./LoginStatus";
 
 export const AUTH_SERVER_ADDRESS = "http://localhost:8090"
 export const CLIENT_ID = "LibraryAppClient"
@@ -19,9 +20,6 @@ export default function GetAccessToken(){
     useEffect(() => {
 
         const code = searchParams.get("code")
-
-        console.log("CODE:")
-        console.log(code)
 
         const xWwwformUrlencodedData = {
             grant_type: "authorization_code",

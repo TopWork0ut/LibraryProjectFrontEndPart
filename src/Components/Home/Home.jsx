@@ -7,21 +7,18 @@ import ImageLibrary from "../../Images/General//library-svgrepo-com.svg";
 import { useNavigate } from "react-router-dom";
 import { HomeContainer } from "../../Styles/Home/Home.styled";
 import Catalog from "../../Elements/Catalog/Catalog";
+import { useEffect } from "react";
+import { LoginStatus } from "../../requests/LoginStatus";
 
-// const Home = () => {
-//   return (
-//     <div>
-//       {/* <HeroMenu />
-//       <Header />
-//       <BookListing />
-//       <Footer /> */}
-//     </div>
-//   );
-// };
-// export default Home;
+
 
 export default function Home(){
   const navigate = useNavigate()
+
+  useEffect(() => {
+    LoginStatus.getLoginStatus()
+  });
+
   return (
       <HomeContainer>
           <hero>
