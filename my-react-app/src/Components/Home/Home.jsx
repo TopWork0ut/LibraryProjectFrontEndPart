@@ -7,6 +7,8 @@ import ImageLibrary from "../../Images/General//library-svgrepo-com.svg";
 import { useNavigate } from "react-router-dom";
 import { HomeContainer } from "../../Styles/Home/Home.styled";
 import Catalog from "../../Elements/Catalog/Catalog";
+import { useEffect } from "react";
+
 
 // const Home = () => {
 //   return (

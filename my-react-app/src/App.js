@@ -8,6 +8,8 @@ import {
 import OuterHeader from "./Components/Home/OuterHeader";
 import Footer from "./Components/Home/Footer";
 import Details from "./Components/Home/Details";
+import GetAccessToken from "./requests/GetAccessToken";
+import Logout from "./requests/Logout";
 
 function App() {
   return (
@@ -15,8 +17,10 @@ function App() {
       <OuterHeader/>
         <div className = "PageWrapper">
           <Routes> 
-            <Route path="/" element={<Home />}/> 
-            <Route path="/details" element={<Details />}/> 
+            <Route path="/" element={<Home />}/>
+            <Route path="/details" element={<Details />}/>
+            <Route path="/get-access-token-by-code" element={<GetAccessToken />}/> 
+            <Route path="/logout" element={<Logout />}/> 
             {/*<Route path="/login" element={<SignIn />}/> 
             <Route path="/sign-up" element={<SignUp />}/>  */}
             {/* <Route path="/user" element={
