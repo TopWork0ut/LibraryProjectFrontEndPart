@@ -1,4 +1,8 @@
-# LibraryProjectFrontEndPart
+## Library project
 
-cd my-react-app
+To run application:
+
+```
+npm install
 npm start
+```
