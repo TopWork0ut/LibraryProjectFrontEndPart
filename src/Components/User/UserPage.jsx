@@ -28,53 +28,53 @@ export default function UserPage() {
     const [user, setUser] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    async function init(){
+      let rendered = []
+      let seenBooks = []
+      const loggedUser = LoginStatus.getLoginStatus()
+      
+      
+      const dbUser = await Request.sendRequest(`/user/byEmail/${loggedUser.email}`, HttpMethods.GET)
+
+      let allBooks
+      try{
+        allBooks = await Request.sendRequest(`/user-borrow/user/${dbUser.id}`, HttpMethods.GET)
+      } catch (error){
+        allBooks = []
+      }
+    
+      allBooks = allBooks.map(element => {
+        return element.book
+      })
+      .filter(el => el.bookStatus == "IS_BORROWED")
+      .map(el => {
+        console.log("START  ")
+        if (!(seenBooks.includes(el.title))) {
+          console.log(el)
+          seenBooks.push(el.title)
+          rendered.push(el)
+        } 
+      });
+    
+      console.log(rendered)
+
+      setUser(loggedUser)
+      setBooks(rendered)
+
+    
+    }
+    
   
     useEffect(() => {
-      // const getUser = async () => {
-      //   try {
-      //   //   const userData = await fetchUserById(userId); 
-      //   let userData = LoginStatus.getLoginStatus()
-      //   setUser(userData);
-      //   } catch (err) {
-      //       setError(err.message);
-      //   } finally {
-      //       setTimeout(() => {
-      //           setLoading(false);
-      //         }, 500);            
-      //   }
-      // };
-      // getUser();
+        init()
+      // if(!loading){
+        // window.location.reload()
+        // setLoading(true)
+      // }
 
+      // setBooks(f)
 
-      async function init(){
-        const loggedUser = LoginStatus.getLoginStatus()
-        setUser(loggedUser)
-        const dbUser = await Request.sendRequest(`/user/byEmail/${loggedUser.email}`, HttpMethods.GET)
-
-        let allBooks
-        try{
-          allBooks = await Request.sendRequest(`/user-borrow/user/${dbUser.id}`, HttpMethods.GET)
-        } catch (error){
-          allBooks = []
-        }
-        
-        allBooks = allBooks.map(element => {
-          return element.book
-        })
-        .filter(el => el.bookStatus == "IS_BORROWED")
-        .filter((value, index, self) => {
-          return self.indexOf(value) === index;
-        });
-
-        setBooks(allBooks)
-        console.log(allBooks)
-
-        
-      }
-  
-      init()
-
-      // window.location.reload()
     }, []);
   
     // if (error) {
@@ -89,12 +89,17 @@ export default function UserPage() {
     //const userBooks = books.filter(book => user.books.includes(book.id));
     let userBooks = books;
 
-    function returnBook(id) {
+    async function returnBook(id) {
+      let rendered = []
+      let seenBooks = []
       const loggedUser = LoginStatus.getLoginStatus()
+      
+      
+      const dbUser = await Request.sendRequest(`/user/byEmail/${loggedUser.email}`, HttpMethods.GET)
 
-      async function a() {        
-        const dbUser = await Request.sendRequest(`/user/byEmail/${loggedUser.email}`, HttpMethods.GET)
-        await Request.sendRequest("/user-return/", HttpMethods.POST, {
+      
+      try{
+        await Request.sendRequest(`/user-return/`, HttpMethods.POST, {
           user: {
             id: dbUser.id
           },
@@ -102,13 +107,34 @@ export default function UserPage() {
             id: id
           }
         })
-      };
+      } catch (error){
+        
+      }
 
-      a()
+      let allBooks
+      try{
+        allBooks = await Request.sendRequest(`/user-borrow/user/${dbUser.id}`, HttpMethods.GET)
+      } catch (error){
+        allBooks = []
+      }
+    
+      allBooks = allBooks.map(element => {
+        return element.book
+      })
+      .filter(el => el.bookStatus == "IS_BORROWED")
+      .map(el => {
+        console.log("START  ")
+        if (!(seenBooks.includes(el.title))) {
+          console.log(el)
+          seenBooks.push(el.title)
+          rendered.push(el)
+        } 
+      });
+    
+      console.log(rendered)
 
-      // window.location.reload()
-
-      console.log("IDDDDDDDDDDDDDDDDD:" + id)
+      setUser(loggedUser)
+      setBooks(rendered)
     };
 
     if (loading){

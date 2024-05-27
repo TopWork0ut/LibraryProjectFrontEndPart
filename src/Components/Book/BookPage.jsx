@@ -52,9 +52,9 @@ export default function BookPage() {
         }
       };
 
-      a()
+      a().then(() => navigate(`/user/${loggedUser.email}`))
 
-      navigate(`/user/${loggedUser.email}`)
+     
     };
     
 
