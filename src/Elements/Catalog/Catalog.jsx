@@ -14,14 +14,18 @@ export default function Catalog() {
   let data = useContext(BooksContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [genreFilter, setGenreFilter] = useState("");
+  const [authorFilter, setAuthorFilter] = useState("");
   const [itemsToShow, setItemsToShow] = useState(4);
   const [showMorePressed, setShowMorePressed] = useState(false);
 
-  const filteredData = data.filter(
-    (item) =>
-      item.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      (genreFilter === "" || item.genre === genreFilter)
-  );
+  const filteredData = data.filter((item) => {
+    const titleMatches = item.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const genreMatches = genreFilter === "" || item.genre === genreFilter;
+    const authorMatches = authorFilter === "" || item.author === authorFilter;
+    return titleMatches && genreMatches && authorMatches;
+  });
   const visibleData = filteredData.slice(0, itemsToShow);
 
   const handleSearch = (e) => {
@@ -30,6 +34,10 @@ export default function Catalog() {
 
   const handleGenreChange = (e) => {
     setGenreFilter(e.target.value);
+  };
+
+  const handleAuthorChange = (e) => {
+    setAuthorFilter(e.target.value);
   };
 
   const handleShowMore = () => {
@@ -42,6 +50,18 @@ export default function Catalog() {
     if (itemsToShow === 8) {
       setShowMorePressed(false);
     }
+  };
+
+  const getUniqueAuthors = () => {
+    const uniqueAuthors = new Set();
+    data.forEach((book) => uniqueAuthors.add(book.author));
+    return Array.from(uniqueAuthors);
+  };
+
+  const handleClearFilters = () => {
+    setSearchQuery("");
+    setGenreFilter("");
+    setAuthorFilter("");
   };
 
   return (
@@ -65,6 +85,20 @@ export default function Catalog() {
             <option value="Adventure">Adventure</option>
             <option value="Fantasy">Fantasy</option>
           </select>
+          <select
+            className="select-container"
+            value={authorFilter}
+            onChange={handleAuthorChange}>
+            <option value="">All Authors</option>
+            {getUniqueAuthors().map((author, index) => (
+              <option key={index} value={author}>
+                {author}
+              </option>
+            ))}
+          </select>
+          <button className="clearALlButoon" onClick={handleClearFilters}>
+            Clear All
+          </button>
         </div>
       </FilterWrapper>
       <CatalogWrapper>
