@@ -1,17 +1,109 @@
 import React, { useState } from "react";
 import CardBook from "./CardBook/CardBook";
+<<<<<<< HEAD
+import { CatalogWrapper, FilterWrapper, CatalogContainer} from "../../Styles/Catalog/Catalog.styled";
+import { useContext } from "react";
+import { BooksContext } from "../BookContext/BookListContext";
+
+export default function Catalog() {
+  let data = useContext(BooksContext)
+=======
 import {
   CatalogWrapper,
   FilterWrapper,
-  SearchInput,
   CatalogContainer,
+  SearchInput,
 } from "../../Styles/Catalog/Catalog.styled";
-import { useContext } from "react";
-import { BooksContext } from "../BookContext/BookListContext";
 import Image from "../../Images/General/opened-book-image.svg";
 
+const data = [
+  {
+    title: "To Kill a Mockingbird",
+    description: "A classic novel by Harper Lee",
+    image: Image,
+    author: "Harper Lee",
+    genre: "Fiction",
+  },
+  {
+    title: "1984",
+    description: "A dystopian novel by George Orwell",
+    image: Image,
+    author: "George Orwell",
+    genre: "Horror",
+  },
+  {
+    title: "Pride and Prejudice",
+    description: "A romantic novel by Jane Austen",
+    image: Image,
+    author: "Jane Austen",
+    genre: "Drama",
+  },
+  {
+    title: "The Catcher in the Rye",
+    description: "A novel by J.D. Salinger",
+    image: Image,
+    author: "J.D. Salinger",
+    genre: "Fantasy",
+  },
+  {
+    title: "The Great Gatsby",
+    description: "A novel by F. Scott Fitzgerald",
+    image: Image,
+    author: "F. Scott Fitzgerald",
+    genre: "Adventure",
+  },
+  {
+    title: "Moby-Dick",
+    description: "A novel by Herman Melville",
+    image: Image,
+    author: "Herman Melville",
+    genre: "Horror",
+  },
+  {
+    title: "Frankenstein",
+    description: "A novel by Mary Shelley",
+    image: Image,
+    author: "Mary Shelley",
+    genre: "Fiction",
+  },
+  {
+    title: "Brave New World",
+    description: "A novel by Aldous Huxley",
+    image: Image,
+    author: "Aldous Huxley",
+    genre: "Fantasy",
+  },
+  {
+    title: "The Hobbit",
+    description: "A fantasy novel by J.R.R. Tolkien",
+    image: Image,
+    author: "J.R.R. Tolkien",
+    genre: "Adventure",
+  },
+  {
+    title: "The Lord of the Rings",
+    description: "A fantasy novel by J.R.R. Tolkien",
+    image: Image,
+    author: "J.R.R. Tolkien",
+    genre: "Drama",
+  },
+  {
+    title: "The Picture of Dorian Gray",
+    description: "A novel by Oscar Wilde",
+    image: Image,
+    author: "Oscar Wilde",
+    genre: "Fiction",
+  },
+  {
+    title: "Crime and Punishment",
+    description: "A novel by Fyodor Dostoevsky",
+    image: Image,
+    author: "Fyodor Dostoevsky",
+    genre: "Horror",
+  },
+];
+
 export default function Catalog() {
-  let data = useContext(BooksContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [genreFilter, setGenreFilter] = useState("");
   const [itemsToShow, setItemsToShow] = useState(4);
@@ -44,6 +136,7 @@ export default function Catalog() {
     }
   };
 
+>>>>>>> ae6ef81d (add sorting, filtering and its styling)
   return (
     <CatalogContainer>
       <FilterWrapper>
@@ -68,14 +161,24 @@ export default function Catalog() {
         </div>
       </FilterWrapper>
       <CatalogWrapper>
+<<<<<<< HEAD
+        {data.map(({ title, description, image, author, id }, idx) => (
+          <CardBook
+            key={idx}
+            id = {id}
+            title={title}
+            description={description}
+            image={image}
+            author={author}
+=======
         {visibleData.map((book, idx) => (
           <CardBook
             key={idx}
-            id={book.id}
             title={book.title}
             description={book.description}
             image={book.image}
             author={book.author}
+>>>>>>> ae6ef81d (add sorting, filtering and its styling)
           />
         ))}
       </CatalogWrapper>
