@@ -130,5 +130,4 @@ export const HeaderContainer = styled.header`
       animation: ${libraryHeadingAnimation} 0.5s ease;
     }
   }
-  }
 `;

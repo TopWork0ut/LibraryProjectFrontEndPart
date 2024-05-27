@@ -11,6 +11,7 @@ import Details from "./Components/Home/Details";
 import GetAccessToken from "./requests/GetAccessToken";
 import Logout from "./requests/Logout";
 import BookPage from "./Components/Book/BookPage";
+import UserPage from "./Components/User/UserPage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/get-access-token-by-code" element={<GetAccessToken />}/> 
             <Route path="/logout" element={<Logout />}/> 
             <Route path= "/book/:id" element ={<BookPage/>} />
+            <Route path= "/user/:id" element ={<UserPage/>} />
             {/*<Route path="/login" element={<SignIn />}/> 
             <Route path="/sign-up" element={<SignUp />}/>  */}
             {/* <Route path="/user" element={
