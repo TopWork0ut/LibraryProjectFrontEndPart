@@ -35,7 +35,7 @@ export default function Home(){
                   With advanced search options and personalized recommendations, 
                   finding your next literary adventure has never been easier.
                   </p> 
-                  <ClassicButton onClick={()=>navigate("/sign-up")}>Get Started</ClassicButton>
+                  <ClassicButton onClick={()=>navigate("/details")}>Get Started</ClassicButton>
               </div>
           </hero>
           <Catalog/>

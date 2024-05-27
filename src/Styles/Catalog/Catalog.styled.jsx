@@ -12,7 +12,6 @@ export const CatalogContainer = styled.div`
   background-size: cover;
   background-position: center;
   position: relative;
-
   .booksToShowDiv {
     display: flex;
     flex-direction: raw;
@@ -20,7 +19,6 @@ export const CatalogContainer = styled.div`
     align-items: center;
     margin-bottom: 30px;
   }
-
   && button.buttonToReduceBooks,
   && button.buttonToAddBooks {
     width: 160px;
@@ -39,7 +37,6 @@ export const CatalogContainer = styled.div`
     margin-right: 40px;
     transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   }
-
   /* Hover styles for both buttons */
   && button.buttonToReduceBooks:hover,
   && button.buttonToAddBooks:hover {
@@ -55,7 +52,6 @@ export const CatalogWrapper = styled.section`
   align-items: flex-start; /* Align items at the start of the container */
   font-size: large;
   padding: 0.5em 2em;
-
   //   @media (max-width: 768px) {
   //     flex-direction: column;
   //     align-items: center;
@@ -69,7 +65,6 @@ export const FilterWrapper = styled.div`
   align-items: center;
   margin-top: 36px;
   margin-left: 60px;
-
   .search_by_name {
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 25 25' fill-rule='evenodd'%3E%3Cpath d='M16.036 18.455l2.404-2.405 5.586 5.587-2.404 2.404zM8.5 2C12.1 2 15 4.9 15 8.5S12.1 15 8.5 15 2 12.1 2 8.5 4.9 2 8.5 2zm0-2C3.8 0 0 3.8 0 8.5S3.8 17 8.5 17 17 13.2 17 8.5 13.2 0 8.5 0zM15 16a1 1 0 1 1 2 0 1 1 0 1 1-2 0'%3E%3C/path%3E%3C/svg%3E")
         4% / 6% no-repeat,
@@ -78,13 +73,11 @@ export const FilterWrapper = styled.div`
     border-radius: 1em;
     /* color: #fff; */
   }
-
   .filters {
     display: flex;
     flex-direction: row;
     align-items: center;
   }
-
   select {
     margin-left: 80px;
     width: 250px;
@@ -102,7 +95,6 @@ export const FilterWrapper = styled.div`
     transition: border-color 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-
   button {
     margin-left: 80px;
     padding: 1em;
@@ -133,26 +125,21 @@ export const SearchInput = styled.input`
   font-size: 18px;
   outline: none;
   transition: border-color 0.3s ease;
-
   /* Box Shadow for a slight depth effect */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
   /* Hover effect */
   &:hover {
     border-color: #e3a805; /* Lighter color */
   }
-
   /* Focus effect */
   &:focus {
     border-color: #e3a805; /* Lighter color */
     box-shadow: 0 0 8px rgba(227, 168, 5, 0.6); /* Lighter shadow */
   }
-
   /* Placeholder style */
   &::placeholder {
     color: #999; /* Light gray */
   }
-
   /* Styling for caret */
   &::-webkit-search-cancel-button {
     -webkit-appearance: none;
