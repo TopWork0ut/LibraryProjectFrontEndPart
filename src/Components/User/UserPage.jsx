@@ -25,36 +25,47 @@ export default function UserPage() {
     const { userId } = useParams();
     // const books  = useContext(BooksContext);
     const [books, setBooks] = useState([]);
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
   
     useEffect(() => {
-      const getUser = async () => {
-        try {
-        //   const userData = await fetchUserById(userId); 
-        let userData = LoginStatus.getLoginStatus()
-        setUser(userData);
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setTimeout(() => {
-                setLoading(false);
-              }, 500);            
-        }
-      };
-      getUser();
+      // const getUser = async () => {
+      //   try {
+      //   //   const userData = await fetchUserById(userId); 
+      //   let userData = LoginStatus.getLoginStatus()
+      //   setUser(userData);
+      //   } catch (err) {
+      //       setError(err.message);
+      //   } finally {
+      //       setTimeout(() => {
+      //           setLoading(false);
+      //         }, 500);            
+      //   }
+      // };
+      // getUser();
 
 
       async function init(){
         const loggedUser = LoginStatus.getLoginStatus()
+        setUser(loggedUser)
         const dbUser = await Request.sendRequest(`/user/byEmail/${loggedUser.email}`, HttpMethods.GET)
 
-        let allBooks = (await Request.sendRequest(`/user-borrow/${dbUser.id}`, HttpMethods.GET))
-        .map(element => {
+        let allBooks
+        try{
+          allBooks = await Request.sendRequest(`/user-borrow/user/${dbUser.id}`, HttpMethods.GET)
+        } catch (error){
+          allBooks = []
+        }
+        
+        allBooks = allBooks.map(element => {
           return element.book
         })
-        .filter(el => el.bookStatus == "IS_BORROWED");
+        .filter(el => el.bookStatus == "IS_BORROWED")
+        .filter((value, index, self) => {
+          return self.indexOf(value) === index;
+        });
+
         setBooks(allBooks)
         console.log(allBooks)
 
@@ -62,15 +73,17 @@ export default function UserPage() {
       }
   
       init()
+
+      // window.location.reload()
     }, []);
   
-    if (error) {
-      return <div>Error: {error}</div>;
-    }
+    // if (error) {
+    //   return <div>Error: {error}</div>;
+    // }
   
-    if (!user) {
-      return <div>User not found</div>;
-    }
+    // if (!user) {
+    //   return <div>User not found</div>;
+    // }
   
     // Get the list of books for this user
     //const userBooks = books.filter(book => user.books.includes(book.id));
@@ -78,8 +91,6 @@ export default function UserPage() {
 
     function returnBook(id) {
       const loggedUser = LoginStatus.getLoginStatus()
-
-      
 
       async function a() {        
         const dbUser = await Request.sendRequest(`/user/byEmail/${loggedUser.email}`, HttpMethods.GET)
@@ -95,7 +106,7 @@ export default function UserPage() {
 
       a()
 
-      window.location.reload()
+      // window.location.reload()
 
       console.log("IDDDDDDDDDDDDDDDDD:" + id)
     };

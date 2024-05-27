@@ -122,7 +122,7 @@ export default function Catalog() {
         </div>
       </FilterWrapper>
       <CatalogWrapper>
-        {visibleData.map((book, idx) => (
+        {visibleData.map((book, idx) => book.bookStatus === "IS_AVAILABLE" ? (
           <CardBook
             key={idx}
             id={book.id}
@@ -133,7 +133,7 @@ export default function Catalog() {
               "null"
             }
           />
-        ))}
+        ) : (<></>))}
       </CatalogWrapper>
       <div className="booksToShowDiv">
         {showMorePressed && (
