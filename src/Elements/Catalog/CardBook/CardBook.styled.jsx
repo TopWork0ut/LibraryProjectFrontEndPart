@@ -2,7 +2,7 @@ import styled from "styled-components";
 import CardStyled from "../Card/Card.styled";
 
 const CardBookStyled = styled(CardStyled)`
-  border: 2px solid rgb(192, 192, 192);
+  border: 2px solid rgb(9, 54, 80);
   justify-content: center;
 
   p {
