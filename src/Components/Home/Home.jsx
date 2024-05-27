@@ -26,7 +26,7 @@ export default function Home(){
           let user = await Request.sendRequest(`/user/byEmail/${loggedUser.email}`, HttpMethods.GET)
           console.log(user)
         } catch (error){
-          if(error.response.status === 500){
+          // if(error.response.status === 500){
             let registeredUser = await Request.sendRequest(`/user/`, HttpMethods.POST, {
               firstName: loggedUser.firstName,
               lastName: loggedUser.lastName,
@@ -37,10 +37,10 @@ export default function Home(){
               middleName: "",
               phoneNumber: "",
               balance: 1000.0
-          })
+          // })
 
           
-          }
+          })
           
         }
         
