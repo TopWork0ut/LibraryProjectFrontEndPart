@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CardBook from "./CardBook/CardBook";
+<<<<<<< HEAD
 import {
   CatalogWrapper,
   FilterWrapper,
@@ -128,6 +129,14 @@ export default function Catalog() {
     }
   };
 
+=======
+import { CatalogWrapper, FilterWrapper, CatalogContainer} from "../../Styles/Catalog/Catalog.styled";
+import { useContext } from "react";
+import { BooksContext } from "../BookContext/BookListContext";
+
+export default function Catalog() {
+  let data = useContext(BooksContext)
+>>>>>>> b38a7d04 (Branch - added book page and routing to it)
   return (
     <CatalogContainer>
       <FilterWrapper>
@@ -152,6 +161,7 @@ export default function Catalog() {
         </div>
       </FilterWrapper>
       <CatalogWrapper>
+<<<<<<< HEAD
         {visibleData.map((book, idx) => (
           <CardBook
             key={idx}
@@ -159,6 +169,16 @@ export default function Catalog() {
             description={book.description}
             image={book.image}
             author={book.author}
+=======
+        {data.map(({ title, description, image, author, id }, idx) => (
+          <CardBook
+            key={idx}
+            id = {id}
+            title={title}
+            description={description}
+            image={image}
+            author={author}
+>>>>>>> b38a7d04 (Branch - added book page and routing to it)
           />
         ))}
       </CatalogWrapper>

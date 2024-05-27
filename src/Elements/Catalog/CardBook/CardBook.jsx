@@ -1,5 +1,6 @@
 import React from 'react';
 import CardBookStyled from './CardBook.styled';
+import { NavLink } from 'react-router-dom';
 
 const CardBook = (props) => {
     return(
@@ -9,7 +10,10 @@ const CardBook = (props) => {
         <p>{props.description}</p>
         <footer>
             <p><b>{props.author}</b></p>
-            <button className="view-more">View more</button>
+            {/* <button><NavLink key={props.id} className="view-more-link" to={`/book/${props.id}`}>View more</NavLink></button> */}
+            {/* <button className="view-more"><NavLink key={props.id} className="view-more-link" to={`/book/${props.id}`}>View more</NavLink></button> */}
+            <NavLink key={props.id} className="view-more-link" to={`/book/${props.id}`}>View more</NavLink>
+            {/* <button className="view-more">View more</button> */}
         </footer>
     </CardBookStyled>
 );  
