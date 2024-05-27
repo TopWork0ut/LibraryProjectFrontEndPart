@@ -37,6 +37,8 @@ export default function BookPage() {
 
       async function a() {
         const book1 = await Request.sendRequest(`/book/${id}`, HttpMethods.GET)
+        console.log("asdfsad")
+        console.log(book1)
         if(book1.bookStatus == "IS_AVAILABLE"){
           const dbUser = await Request.sendRequest(`/user/byEmail/${loggedUser.email}`, HttpMethods.GET)
           await Request.sendRequest("/user-borrow/", HttpMethods.POST, {
@@ -54,7 +56,7 @@ export default function BookPage() {
 
       a().then(() => navigate(`/user/${loggedUser.email}`))
 
-     
+      
     };
     
 
@@ -67,15 +69,14 @@ export default function BookPage() {
                 <img src={Image} alt="book"/>
                 <div className="info">
                     <ContainerCharacteristicsStyled>  
-                        <h1>Welcome to the page of book: {book.title}</h1>
+                        <h1>"{book.title}"</h1>
                         <h3>Author: {
                             typeof book.authors !== 'undefined' ? 
                             book.authors[0].firstName + " " + book.authors[0].lastName : 
                             "null"
                           }</h3>  
                     </ContainerCharacteristicsStyled>
-                    <h3>About the book:</h3>
-                    <h4>Genre of the book: {book.genre}</h4>
+                    <h4>Genre of the book: {typeof book.genres !== 'undefined' ? book.genres[0].genreName : ""}</h4>
                     <p>{book.description}</p>
                     
                 </div>

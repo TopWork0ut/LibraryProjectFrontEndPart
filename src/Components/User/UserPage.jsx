@@ -123,7 +123,7 @@ export default function UserPage() {
       })
       .filter(el => el.bookStatus == "IS_BORROWED")
       .map(el => {
-        console.log("START  ")
+        console.log("START")
         if (!(seenBooks.includes(el.title))) {
           console.log(el)
           seenBooks.push(el.title)
