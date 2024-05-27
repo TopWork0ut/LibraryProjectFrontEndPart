@@ -1,30 +1,10 @@
 import CardBook from "./CardBook/CardBook";
 import { CatalogWrapper, FilterWrapper, CatalogContainer} from "../../Styles/Catalog/Catalog.styled";
-import Image from "../../Images/General/opened-book-image.svg";
-
-const data = [
-  {
-    title: "To Kill a Mockingbird",
-    description: "A classic novel by Harper Lee",
-    image: Image,
-    author: "Harper Lee",
-  },
-  {
-    title: "1984",
-    description: "A dystopian novel by George Orwell",
-    image: Image,
-    author: "George Orwell",
-  },
-  {
-    title: "Pride and Prejudice",
-    description: "A romantic novel by Jane Austen",
-    image: Image,
-    author: "Jane Austen",
-  },
-  // Add more book data as needed
-];
+import { useContext } from "react";
+import { BooksContext } from "../BookContext/BookListContext";
 
 export default function Catalog() {
+  let data = useContext(BooksContext)
   return (
     <CatalogContainer>
       <FilterWrapper>
@@ -41,9 +21,10 @@ export default function Catalog() {
         <button>Apply</button>
       </FilterWrapper>
       <CatalogWrapper>
-        {data.map(({ title, description, image, author }, idx) => (
+        {data.map(({ title, description, image, author, id }, idx) => (
           <CardBook
             key={idx}
+            id = {id}
             title={title}
             description={description}
             image={image}
