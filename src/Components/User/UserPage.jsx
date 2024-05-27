@@ -1,10 +1,13 @@
-import { NavLink, useParams } from 'react-router-dom'; // Assuming you are using react-router for routing
+import { NavLink, useNavigate, useParams } from 'react-router-dom'; // Assuming you are using react-router for routing
 import { BooksContext } from '../../Elements/BookContext/BookListContext';
 import { LinkViewMore } from '../../Styles/NavLinkViewMore/NavLinkViewMore.styled';
 import { BooksReportWrapper, UserPageContainer, UserWrapper } from '../../Styles/UserPage/UserPage.styled';
 import { useContext, useEffect, useState } from 'react';
 import Loader from '../../Elements/Loader/Loader.styled';
 import ButtonGeneralStyled from '../../Elements/ButtonGeneral/ButtonGeneral.styled';
+import { LoginStatus } from '../../requests/LoginStatus';
+import { HttpMethods } from '../../requests/HttpMethods';
+import Request from '../../requests/Request';
 
 // const fetchUserById = async (id) => {
 //     // Replace with your actual API endpoint
@@ -16,9 +19,12 @@ import ButtonGeneralStyled from '../../Elements/ButtonGeneral/ButtonGeneral.styl
 // };
 
 export default function UserPage() {
+    const navigate = useNavigate()
+
+
     const { userId } = useParams();
-    const books  = useContext(BooksContext);
-    // const [book,setBook] =useState([]);
+    // const books  = useContext(BooksContext);
+    const [books, setBooks] = useState([]);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -27,21 +33,36 @@ export default function UserPage() {
       const getUser = async () => {
         try {
         //   const userData = await fetchUserById(userId); 
-        let userData = {
-            "name":"John",
-            "email":"johnmail@mail.com",
-        }
-          setUser(userData);
+        let userData = LoginStatus.getLoginStatus()
+        setUser(userData);
         } catch (err) {
             setError(err.message);
         } finally {
             setTimeout(() => {
                 setLoading(false);
-              }, 2000);            
+              }, 500);            
         }
       };
       getUser();
-    }, [userId]);
+
+
+      async function init(){
+        const loggedUser = LoginStatus.getLoginStatus()
+        const dbUser = await Request.sendRequest(`/user/byEmail/${loggedUser.email}`, HttpMethods.GET)
+
+        let allBooks = (await Request.sendRequest(`/user-borrow/${dbUser.id}`, HttpMethods.GET))
+        .map(element => {
+          return element.book
+        })
+        .filter(el => el.bookStatus == "IS_BORROWED");
+        setBooks(allBooks)
+        console.log(allBooks)
+
+        
+      }
+  
+      init()
+    }, []);
   
     if (error) {
       return <div>Error: {error}</div>;
@@ -55,6 +76,30 @@ export default function UserPage() {
     //const userBooks = books.filter(book => user.books.includes(book.id));
     let userBooks = books;
 
+    function returnBook(id) {
+      const loggedUser = LoginStatus.getLoginStatus()
+
+      
+
+      async function a() {        
+        const dbUser = await Request.sendRequest(`/user/byEmail/${loggedUser.email}`, HttpMethods.GET)
+        await Request.sendRequest("/user-return/", HttpMethods.POST, {
+          user: {
+            id: dbUser.id
+          },
+          book: {
+            id: id
+          }
+        })
+      };
+
+      a()
+
+      window.location.reload()
+
+      console.log("IDDDDDDDDDDDDDDDDD:" + id)
+    };
+
     if (loading){
       return (
         <UserPageContainer>
@@ -67,10 +112,10 @@ export default function UserPage() {
         <UserPageContainer>
           <UserWrapper>
             <h1>User Profile</h1>
-            <h2>Welcome to your profile, {user.name}</h2>
+            <h2>Welcome to your profile, {user.firstName}</h2>
             <div style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
                 <h2>User Details</h2>
-                <p><strong>Name:</strong> {user.name}</p>
+                <p><strong>Name:</strong> {user.firstName + " " + user.lastName}</p>
                 <p><strong>Email:</strong> {user.email}</p>
                 <LinkViewMore>
                     <NavLink className="view-more" to="/">Go Back</NavLink>
@@ -79,17 +124,20 @@ export default function UserPage() {
             </div>
           </UserWrapper>
           <BooksReportWrapper>
-            <h2>{user.name}'s Book List</h2>
-            {userBooks.map((book) => (
-                <div className="report-card" key={book.id} >
+            <h2>{user.firstName}'s Book List</h2>
+            {books.map((book) => 
+            (
+                <div className="report-card" key={book.id} hidden={book.bookStatus === "IS_AVAILABLE"}>
                     {/* <img src={book.image} alt={book.title} style={{ width: '150px', height: '150px' }} /> */}
                     <h2>{book.title}</h2>
                     <p>{book.description}</p>
-                    <p><strong>Author:</strong> {book.author}</p>
-                    <p><strong>Genre:</strong> {book.genre}</p>
-                    <ButtonGeneralStyled>Change the status</ButtonGeneralStyled>
+                    <p><strong>Author:</strong> {book.authors[0].firstName + " " + book.authors[0].lastName}</p>
+                    <p><strong>Genre:</strong> {"book.bookGenres[0]"}</p>
+                    <ButtonGeneralStyled onClick={() => {returnBook(book.id)}}>Return book</ButtonGeneralStyled>
                 </div>
             ))}
+            
+            
           </BooksReportWrapper>
         </UserPageContainer>
        );

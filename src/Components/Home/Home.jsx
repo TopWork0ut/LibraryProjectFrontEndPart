@@ -9,6 +9,8 @@ import { HomeContainer } from "../../Styles/Home/Home.styled";
 import Catalog from "../../Elements/Catalog/Catalog";
 import { useEffect } from "react";
 import { LoginStatus } from "../../requests/LoginStatus";
+import { HttpMethods } from "../../requests/HttpMethods";
+import Request from "../../requests/Request";
 
 
 
@@ -16,7 +18,37 @@ export default function Home(){
   const navigate = useNavigate()
 
   useEffect(() => {
-    LoginStatus.getLoginStatus()
+    const loggedUser = LoginStatus.getLoginStatus()
+
+    if(loggedUser.email != null){
+      async function init(){
+        try{
+          let user = await Request.sendRequest(`/user/byEmail/${loggedUser.email}`, HttpMethods.GET)
+          console.log(user)
+        } catch (error){
+          if(error.response.status === 500){
+            let registeredUser = await Request.sendRequest(`/user/`, HttpMethods.POST, {
+              firstName: loggedUser.firstName,
+              lastName: loggedUser.lastName,
+              email: loggedUser.email,
+              userCategory: {
+                id: 1
+              },
+              middleName: "",
+              phoneNumber: "",
+              balance: 1000.0
+          })
+
+          
+          }
+          
+        }
+        
+      }
+  
+      init()
+    }
+    
   });
 
   return (

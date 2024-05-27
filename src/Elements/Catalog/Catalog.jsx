@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CardBook from "./CardBook/CardBook";
 import {
   CatalogWrapper,
@@ -9,9 +9,29 @@ import {
 import { useContext } from "react";
 import { BooksContext } from "../BookContext/BookListContext";
 import Image from "../../Images/General/opened-book-image.svg";
+import { HttpMethods } from "../../requests/HttpMethods";
+import Request from "../../requests/Request";
+import { all } from "axios";
 
 export default function Catalog() {
-  let data = useContext(BooksContext);
+  const [data, setData] = useState([]);
+  const [authors, setAuthors] = useState([]);
+
+  useEffect(() => {
+    async function init(){
+      let allBooks = await Request.sendRequest("/book/", HttpMethods.GET)
+      setData(allBooks)
+      console.log(allBooks)
+
+      let allAuthors = await Request.sendRequest("/author/", HttpMethods.GET)
+      setAuthors(allAuthors)
+      console.log(allAuthors)
+    }
+
+    init()
+    
+  }, [])
+
   const [searchQuery, setSearchQuery] = useState("");
   const [genreFilter, setGenreFilter] = useState("");
   const [authorFilter, setAuthorFilter] = useState("");
@@ -22,8 +42,8 @@ export default function Catalog() {
     const titleMatches = item.title
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
-    const genreMatches = genreFilter === "" || item.genre === genreFilter;
-    const authorMatches = authorFilter === "" || item.author === authorFilter;
+    const genreMatches = genreFilter === "" || genreFilter in item.bookGenres;
+    const authorMatches = authorFilter === "" || authorFilter in item.authors;
     return titleMatches && genreMatches && authorMatches;
   });
   const visibleData = filteredData.slice(0, itemsToShow);
@@ -90,9 +110,9 @@ export default function Catalog() {
             value={authorFilter}
             onChange={handleAuthorChange}>
             <option value="">All Authors</option>
-            {getUniqueAuthors().map((author, index) => (
+            {authors.map((author, index) => (
               <option key={index} value={author}>
-                {author}
+                {author.firstName + " " + author.lastName}
               </option>
             ))}
           </select>
@@ -107,9 +127,11 @@ export default function Catalog() {
             key={idx}
             id={book.id}
             title={book.title}
-            description={book.description}
-            image={book.image}
-            author={book.author}
+            image={Image}
+            author={typeof book.authors !== 'undefined' ? 
+              book.authors[0].firstName + " " + book.authors[0].lastName : 
+              "null"
+            }
           />
         ))}
       </CatalogWrapper>
