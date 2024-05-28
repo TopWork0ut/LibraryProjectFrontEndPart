@@ -51,4 +51,9 @@ export const BooksReportWrapper = styled.div`
         margin: 10px;
         padding: 10px; 
     }
+
+    .my-row{
+        display: flex;
+  justify-content: center;
+    }
 `

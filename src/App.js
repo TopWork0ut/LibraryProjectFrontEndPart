@@ -13,6 +13,7 @@ import Logout from "./requests/Logout";
 import BookPage from "./Components/Book/BookPage";
 import UserPage from "./Components/User/UserPage";
 import UserReports from "./Elements/UserReports/UserReports";
+import CardBook from "./Elements/Catalog/CardBook/CardBook";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path= "/book/:id" element ={<BookPage/>} />
             <Route path= "/user/:id" element ={<UserPage/>} />
             <Route path= "/report/:id" element ={<UserReports/>} />
+            <Route path= "/card" element ={<CardBook/>} />
             {/*<Route path="/login" element={<SignIn />}/> 
             <Route path="/sign-up" element={<SignUp />}/>  */}
             {/* <Route path="/user" element={

@@ -52,7 +52,7 @@ export default function UserReports() {
         allBooksReport.reportType = "all_books_report"
         borrowedBooksReport.reportType = "borrowed_books_report"
 
-        console.log(borrowedBooksReport.borrowedBooks)
+        console.log(borrowedBooksReport)
 
         fetchedReports.push(userBalanceReport)
         fetchedReports.push(allBooksReport)
@@ -94,21 +94,25 @@ export default function UserReports() {
               <div key={report.id}>
                 {(() => {
                   if (report.reportType === "borrowed_books_report") {
-                    function onlyUnique(value, index, array) {
-                      return array.indexOf(value) === index;
-                    }
+                    
 
                     return (
                       // Return the JSX
                       <div className="report-card" key={report.id}>
                         <p>Current borrowed books</p>
                         {report.borrowedBooks
-                          .map(book => book.title)
-                          .filter(onlyUnique)
-                          .map(title => {
+                          .map(book => {
                             return(
+                              <div className="my-row">
                               <div className="report-card" key={report.id}>
-                                {title}
+                                {book[0].title}
+                              </div>
+                              <div className="report-card" key={report.id}>
+                                Issued date: {book[1][0]}
+                              </div>
+                              <div className="report-card" key={report.id}>
+                                Return date: {book[1][1]}
+                              </div>
                               </div>
                             )
                           })}
