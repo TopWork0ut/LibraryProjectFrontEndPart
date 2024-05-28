@@ -20,41 +20,64 @@ export const BookPageContainer = styled.div`
 
 export const BookInfoWrapper = styled.div`
     display: flex;
-    flex-direction: column;
-    font-size: small;
+    flex-direction: row;    
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+
+    height: 100%;
+    max-width: 80vw;
+    padding: 2em;
+
     overflow: hidden;
     background: #fffffff9;
+    font-size: small;
+
+    .box-image{
+        border: 2px solid #000;
+        /* height: 20em; */
+    }
+    img{
+        max-width: 90%;
+        max-height: 90%;
+        margin-right: 3em;
+        
+        object-fit: contain;
+    }
+`
+
+export const BookTextWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    margin: 0 3%;
-    padding: 2em;
-    height: 100%;
-    width: 80%;
+
+    padding: 3em;
+    border-left: 1px solid #093650 ;
+    width: max-content;
+    
     .classBookDescription{
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
         width: 100%;
+        padding-bottom: 1em;
         border-bottom: 1px solid #093650 ;
     }
+
     .info{
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+    }
 
-    }
-    img{
-        width: 30%;
-        margin-right: 3em;
-    }
-    
+    .rating-container{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }    
 
-    h2{
-        align-self: left;
-        margin-top: 2em;
-        margin-bottom: 2em;
-        line-height: 0.25em;
-    }
     p{
         text-align: justify;
     }
@@ -89,22 +112,24 @@ export const ContainerCharacteristicsStyled = styled.div`
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    align-self: center;
     
-    p{
-        color: #000;
-        margin: 0.5em;
-        span {
-            background: lightcoral;
-            border-radius: 0.5em;
-            color: white;
-            border: 0;
-            padding: 0.5em 1em;
-        }
+    padding: 0.5em;
+    width: 80%;
+
+    border: 2px solid gray;
+    /* border-radius: 2em; */
+    background-color: #121024;
+
+    color: whitesmoke;
+
+    h2{
+        align-self: left;
     }
 `
 
 export const FooterBook = styled.div`
-    margin-top: 7em;
+    margin-top: 5em;
     margin-bottom: 1em;
     
     display: flex;
@@ -116,13 +141,11 @@ export const FooterBook = styled.div`
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        width: 80%;
+        /* width: 90%; */
 
         > button{
         margin:0 0.5em;
         padding: 0.5em;
     }
     }
-
-
 `

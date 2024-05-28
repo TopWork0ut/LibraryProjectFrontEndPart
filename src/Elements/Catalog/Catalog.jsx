@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CardBook from "./CardBook/CardBook";
 import {
   CatalogWrapper,
@@ -9,29 +9,9 @@ import {
 import { useContext } from "react";
 import { BooksContext } from "../BookContext/BookListContext";
 import Image from "../../Images/General/opened-book-image.svg";
-import { HttpMethods } from "../../requests/HttpMethods";
-import Request from "../../requests/Request";
-import { all } from "axios";
 
 export default function Catalog() {
-  const [data, setData] = useState([]);
-  const [authors, setAuthors] = useState([]);
-
-  useEffect(() => {
-    async function init(){
-      let allBooks = await Request.sendRequest("/book/", HttpMethods.GET)
-      setData(allBooks)
-      console.log(allBooks)
-
-      let allAuthors = await Request.sendRequest("/author/", HttpMethods.GET)
-      setAuthors(allAuthors)
-      console.log(allAuthors)
-    }
-
-    init()
-    
-  }, [])
-
+  let data = useContext(BooksContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [genreFilter, setGenreFilter] = useState("");
   const [authorFilter, setAuthorFilter] = useState("");
@@ -42,8 +22,8 @@ export default function Catalog() {
     const titleMatches = item.title
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
-    const genreMatches = genreFilter === "" || genreFilter in item.bookGenres;
-    const authorMatches = authorFilter === "" || authorFilter in item.authors;
+    const genreMatches = genreFilter === "" || item.genre === genreFilter;
+    const authorMatches = authorFilter === "" || item.author === authorFilter;
     return titleMatches && genreMatches && authorMatches;
   });
   const visibleData = filteredData.slice(0, itemsToShow);
@@ -110,9 +90,9 @@ export default function Catalog() {
             value={authorFilter}
             onChange={handleAuthorChange}>
             <option value="">All Authors</option>
-            {authors.map((author, index) => (
+            {getUniqueAuthors().map((author, index) => (
               <option key={index} value={author}>
-                {author.firstName + " " + author.lastName}
+                {author}
               </option>
             ))}
           </select>
@@ -122,18 +102,16 @@ export default function Catalog() {
         </div>
       </FilterWrapper>
       <CatalogWrapper>
-        {visibleData.map((book, idx) => book.bookStatus === "IS_AVAILABLE" ? (
+        {visibleData.map((book, idx) => (
           <CardBook
             key={idx}
             id={book.id}
             title={book.title}
-            image={Image}
-            author={typeof book.authors !== 'undefined' ? 
-              book.authors[0].firstName + " " + book.authors[0].lastName : 
-              "null"
-            }
+            image={book.image}
+            author={book.author}
+            valueRate ={book.valueRate}
           />
-        ) : (<></>))}
+        ))}
       </CatalogWrapper>
       <div className="booksToShowDiv">
         {showMorePressed && (

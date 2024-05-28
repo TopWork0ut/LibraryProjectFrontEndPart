@@ -4,7 +4,11 @@ import CardStyled from "../Card/Card.styled";
 const CardBookStyled = styled(CardStyled)`
   border: 2px solid rgb(9, 54, 80);
   justify-content: center;
-
+  .imageNew{
+      max-height: 50%;
+      object-fit: contain;
+      background: radial-gradient(#093650 5%, #f5f2eb);
+  }
   p {
     padding: 0 1em;
   }
@@ -18,7 +22,11 @@ const CardBookStyled = styled(CardStyled)`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0.5em;
+    /* padding: 0.5em; */
+    > p {
+      font-size: x-small;
+      padding: 0;
+    }
   }
 
   button.view-more {
@@ -77,4 +85,19 @@ const CardBookStyled = styled(CardStyled)`
   } */
 `;
 
-export default CardBookStyled;
+const TextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-self:center;
+  width: 90%;
+
+  .rating-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+`
+
+
+export {TextWrapper, CardBookStyled};
